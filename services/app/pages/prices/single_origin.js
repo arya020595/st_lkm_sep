@@ -1,0 +1,509 @@
+import React, { useState, useEffect, useMemo } from "react";
+import Head from "next/head";
+import appConfig from "../../app.json";
+import { withApollo } from "../../libs/apollo";
+import {
+  showLoadingSpinner,
+  hideLoadingSpinner,
+  useNotification,
+} from "../../components/App";
+import { handleError } from "../../libs/errors";
+import gql from "graphql-tag";
+import { useApolloClient, useMutation, useQuery } from "@apollo/client";
+import { useRouter } from "next/router";
+import AdminArea, { useCurrentUser } from "../../components/AdminArea";
+import Table from "../../components/Table";
+import { FormModal } from "../../components/Modal";
+import NumberFormat from "react-number-format";
+import dayjs from "dayjs";
+import { MultiYearsFilterWithExport } from "../../components/MultiYearsFilterWithExport";
+import Select from "react-select";
+import jwt from "jsonwebtoken";
+import getConfig from "next/config";
+const { publicRuntimeConfig } = getConfig();
+const { TOKENIZE } = publicRuntimeConfig;
+
+const QUERY = gql`
+  query listQueries {
+    allLocalRegionTokenized
+    allTradersTokenized
+  }
+`;
+
+const QUERY_SINGLE_ORIGIN = gql`
+query allSingleOriginsTokenized($year: String, $years: [String!]){
+  allSingleOriginsTokenized(year: $year, years: $years)
+  countSingleOrigins
+}
+`
+
+const CREATE_SINGLE_ORIGIN = gql`
+  mutation createSingleOriginTokenized(
+    $tokenized: String!
+  ) {
+    createSingleOriginTokenized(
+      tokenized: $tokenized
+    )
+  }
+`;
+
+const UPDATE_SINGLE_ORIGIN = gql`
+  mutation updateSingleOriginTokenized(
+    $tokenized: String!
+  ) {
+    updateSingleOriginTokenized(
+      tokenized: $tokenized
+    )
+  }
+`;
+const DELETE_SINGLE_ORIGIN = gql`
+  mutation deleteSingleOriginTokenized($tokenized: String!) {
+    deleteSingleOriginTokenized(tokenized: $tokenized)
+  }
+`;
+
+const SingleOrigin = () => {
+  const notification = useNotification();
+  const router = useRouter();
+  const { currentUserDontHavePrivilege } = useCurrentUser();
+  const client = useApolloClient()
+  const YEARS = useMemo(() => {
+    const toYear = parseInt(dayjs().get("year"));
+    const fromYear = 1949;
+    // console.log([...new Array(toYear - fromYear)])
+    return [...new Array(toYear - fromYear)].map((_, index) => {
+      // console.log(index, toYear, toYear - index)
+      return String(toYear - index);
+    });
+  }, []);
+  const [year, setYear] = useState(YEARS[0]);
+  const [years, setYears] = useState([year]);
+
+  const [createSingleOrigin] = useMutation(CREATE_SINGLE_ORIGIN);
+  const [updateSingleOrigin] = useMutation(UPDATE_SINGLE_ORIGIN);
+  const [deleteSingleOrigin] = useMutation(DELETE_SINGLE_ORIGIN);
+  const { data, loading, error, refetch } = useQuery(QUERY, {
+    variables: {
+      years,
+      year,
+    },
+  });
+  let [countSingleOrigins, setCountSingleOrigins] = useState(0)
+  let [savedCount, setSavedCount] = useState([])
+  let [allSingleOrigins, setAllSingleOrigins] = useState([])
+  let [allLocalRegion, setAllLocalRegion] = useState([])
+  let [allTraders, setAllTraders] = useState([])
+
+  const fetchDataSingleOrigin = async (year, years) => {
+    const result = await client.query({
+      query: QUERY_SINGLE_ORIGIN,
+      variables: {
+        year: year,
+        years: years
+      },
+      fetchPolicy: "no-cache",
+    });
+    const encryptSingleOrigins = result.data?.allSingleOriginsTokenized
+    if (encryptSingleOrigins) {
+      let singleOrigin = []
+      const decrypted = jwt.verify(encryptSingleOrigins, TOKENIZE);
+      singleOrigin = decrypted.results
+      setAllSingleOrigins(singleOrigin)
+      setCountSingleOrigins(result.data?.countSingleOrigins)
+    }
+  }
+  useEffect(() => {
+    fetchDataSingleOrigin(year, years)
+  }, [year, years, savedCount])
+
+  const fetchDataOnce = async () => {
+    const result = await client.query({
+      query: QUERY,
+      fetchPolicy: "no-cache",
+    });
+    const encryptLocalRegion = result.data?.allLocalRegionTokenized
+    if (encryptLocalRegion) {
+      let LocalRegion = []
+      const decrypted = jwt.verify(encryptLocalRegion, TOKENIZE);
+      LocalRegion = decrypted.results
+      setAllLocalRegion(LocalRegion)
+    }
+    const encryptTraders = result.data?.allTradersTokenized
+    if (encryptTraders) {
+      let Traders = []
+      const decrypted = jwt.verify(encryptTraders, TOKENIZE);
+      Traders = decrypted.results
+      setAllTraders(Traders)
+    }
+  }
+  useEffect(() => {
+    fetchDataOnce()
+  }, [])
+
+  const [formData, setFormData] = useState({
+    year,
+  });
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const columns = useMemo(() => [
+    {
+      Header: "Year",
+      accessor: "year",
+      style: {
+        fontSize: 20,
+      },
+      disableFilters: true,
+    },
+    {
+      Header: "Company Name",
+      accessor: "Trader.name",
+      style: {
+        fontSize: 20,
+        width: 300,
+      },
+    },
+    {
+      Header: "Quarter",
+      accessor: "quarter",
+      style: {
+        fontSize: 20,
+      },
+    },
+    {
+      Header: "Region",
+      accessor: "LocalRegion.description",
+      style: {
+        fontSize: 20,
+      },
+    },
+    {
+      Header: "Tonne",
+      accessor: "tonne",
+      style: {
+        fontSize: 20,
+      },
+      Cell: props => (
+        <span>
+          {Number(props.value)
+            .toLocaleString("en-GB")
+            .replace(/(\d)(?=(\d{3})+\.)/g, "$1,")}
+        </span>
+      ),
+    },
+    {
+      Header: "Price (RM/Kg)",
+      accessor: "rmTonne",
+      style: {
+        fontSize: 20,
+      },
+      Cell: props => (
+        <span>
+          {Number(props.value)
+            .toLocaleString("en-GB")
+            .replace(/(\d)(?=(\d{3})+\.)/g, "$1,")}
+        </span>
+      ),
+    },
+  ]);
+
+  const customUtilities = useMemo(() => [
+    {
+      label: "Edit",
+      icon: <i className="fa fa-pencil" />,
+      width: 400,
+      render: propsTable => {
+        return (
+          <div className="flex">
+            <button
+              onClick={e => {
+                if (e) e.preventDefault();
+                setModalVisible(true);
+                setFormData({
+                  ...propsTable.row.original,
+                  regionId: propsTable.row.original.LocalRegion?._id || "",
+                  traders: [
+                    {
+                      label: propsTable.row.original.Trader?.name || "",
+                      value: propsTable.row.original.Trader?._id || "",
+                    },
+                  ],
+                });
+              }}
+              className="mb-1 bg-yellow-500 hover:bg-orange-600 mx-1 py-2 px-2 text-white focus:outline-none rounded-md shadow-lg">
+              <p className="text-white font-bold text-md">
+                <i className="fa fa-pencil-alt " /> Edit
+              </p>
+            </button>
+          </div>
+        );
+      },
+    },
+  ]);
+
+  return (
+    <AdminArea urlQuery={router.query}>
+      <Head>
+        <title>Single Origin | Price</title>
+      </Head>
+      <FormModal
+        title={`${!formData._id ? "New" : "Edit"} Single Origin`}
+        visible={modalVisible}
+        onClose={e => {
+          if (e) e.preventDefault();
+          setModalVisible(false);
+          setFormData({});
+        }}
+        onSubmit={async e => {
+          if (e) e.preventDefault();
+          showLoadingSpinner();
+          try {
+            let { _id, __typename, _createdAt, _updatedAt } = formData;
+
+            if (!_id) {
+              const payload = {
+                ...formData,
+                year: parseInt(formData?.year || dayjs().format("YYYY")),
+              }
+              let tokenized = jwt.sign(payload, TOKENIZE);
+              await createSingleOrigin({
+                variables: {
+                  tokenized
+                },
+              });
+              setSavedCount(savedCount += 1)
+            } else {
+              const payload = {
+                ...formData,
+                year: parseInt(formData?.year || dayjs().format("YYYY")),
+              }
+              let tokenized = jwt.sign(payload, TOKENIZE);
+              await updateSingleOrigin({
+                variables: {
+                  tokenized
+                },
+              });
+              setSavedCount(savedCount += 1)
+            }
+            await refetch();
+            notification.addNotification({
+              title: "Succeess!",
+              message: `Single Origin saved!`,
+              level: "success",
+            });
+            setModalVisible(false);
+          } catch (e) {
+            notification.handleError(e);
+          }
+          hideLoadingSpinner();
+        }}>
+        <div className="form-group">
+          <label>Year*</label>
+          <select
+            className="form-control"
+            value={formData.year}
+            onChange={e => {
+              if (e) e.preventDefault();
+              setFormData({
+                ...formData,
+                year: parseInt(e.target.value),
+              });
+            }}
+            required>
+            {YEARS.map(y => (
+              <option value={parseInt(y)}>{y}</option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label>Company Name*</label>
+          <Select
+            options={allTraders.map(trade => {
+              return {
+                label: trade.name,
+                value: trade._id,
+              };
+            })}
+            className="basic-multi-select"
+            classNamePrefix="select"
+            onChange={data => {
+              setFormData({
+                ...formData,
+                traderId: data.value,
+                traders: [data],
+              });
+            }}
+            value={formData.traders || ""}
+          />
+        </div>
+        <div className="form-group">
+          <label>Quarter</label>
+          <select
+            className="form-control"
+            value={formData.quarter || ""}
+            onChange={e => {
+              if (e) e.preventDefault();
+              setFormData({
+                ...formData,
+                quarter: e.target.value,
+              });
+            }}>
+            <option value="" disabled>
+              Select Quarter
+            </option>
+            <option value="Q1">Q1</option>
+            <option value="Q2">Q2</option>
+            <option value="Q3">Q3</option>
+            <option value="Q4">Q4</option>
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label>Region*</label>
+          <select
+            className="form-control"
+            value={formData.regionId || ""}
+            onChange={e => {
+              if (e) e.preventDefault();
+              setFormData({
+                ...formData,
+                regionId: e.target.value,
+              });
+            }}
+            required>
+            <option value="" disabled>
+              Select Region
+            </option>
+            {allLocalRegion.map(reg => (
+              <option value={reg._id}>{reg.description}</option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label>Tonne</label>
+          <NumberFormat
+            className="form-control"
+            value={formData.tonne || 0}
+            thousandSeparator={","}
+            fixedDecimalScale={true}
+            decimalSeparator={"."}
+            decimalScale={2}
+            onValueChange={e => {
+              // if (e) e.preventDefault();
+              setFormData({
+                ...formData,
+                tonne: e.floatValue,
+              });
+            }}
+          />
+        </div>
+        <div className="form-group">
+          <label>Price (RM/Kg)</label>
+          <NumberFormat
+            className="form-control"
+            value={formData.rmTonne || 0}
+            thousandSeparator={","}
+            fixedDecimalScale={true}
+            decimalSeparator={"."}
+            decimalScale={2}
+            onValueChange={e => {
+              // if (e) e.preventDefault();
+              setFormData({
+                ...formData,
+                rmTonne: e.floatValue,
+              });
+            }}
+          />
+        </div>
+      </FormModal>
+
+      <div className="mt-26  pr-0 md:pr-10 py-4 bg-white">
+        <Table
+          customHeaderUtilities={
+            <MultiYearsFilterWithExport
+              label="Year Filter"
+              defaultValue={dayjs().format("YYYY")}
+              options={YEARS}
+              onSelect={(year, years) => {
+                setYear(year);
+                setYears(years);
+              }}
+              exportConfig={{
+                title: "Prices - Single Origin",
+                // collectionName: "SingleOrigins",
+                // filters: {
+                //   year: years.map(year => parseInt(year)),
+                // },
+                columns,
+                data: allSingleOrigins,
+              }}
+            />
+          }
+          loading={false}
+          columns={columns}
+          data={allSingleOrigins}
+          withoutHeader={true}
+          onAdd={
+            currentUserDontHavePrivilege(["Single Origin:Create"])
+              ? null
+              : e => {
+                if (e) e.preventDefault();
+                setModalVisible(true);
+                setFormData({});
+              }
+          }
+          onRemove={
+            currentUserDontHavePrivilege(["Single Origin:Create"])
+              ? null
+              : async ({ rows }) => {
+                showLoadingSpinner();
+                try {
+                  let yes = confirm(
+                    `Are you sure to delete ${rows.length} origins?`,
+                  );
+                  if (yes) {
+                    for (const row of rows) {
+                      const payload = {
+                        _id: row._id,
+
+                      }
+                      let tokenized = jwt.sign(payload, TOKENIZE);
+                      await deleteSingleOrigin({
+                        variables: {
+                          tokenized
+                        },
+                      });
+                    }
+                    setSavedCount(savedCount += 1)
+                    notification.addNotification({
+                      title: "Success!",
+                      message: `${rows.length} origins deleted`,
+                      level: "success",
+                    });
+                    await refetch();
+                  }
+                } catch (err) {
+                  handleError(err);
+                }
+                hideLoadingSpinner();
+              }
+          }
+          customUtilities={
+            currentUserDontHavePrivilege(["Single Origin:Update"])
+              ? null
+              : customUtilities
+          }
+          customUtilitiesPosition="left"
+        />
+
+        <div className="flex mt-4">
+          <p className="text-md">Total Data: </p>
+          <p className="text-md font-bold mx-4">
+            {countSingleOrigins || 0}
+          </p>
+        </div>
+      </div>
+    </AdminArea>
+  );
+};
+
+export default withApollo({ ssr: true })(SingleOrigin);

@@ -1,0 +1,122 @@
+# =============================================================================
+# LKM-SEP v2 — Docker Compose (Production)
+# =============================================================================
+# Usage: docker compose up -d --build
+# =============================================================================
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: lkm-sep-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGOD_DB:-lkm-sep-v2}
+    ports:
+      - "${MONGOD_PORT:-27017}:27017"
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: lkm-sep-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  graphql:
+    build:
+      context: .
+      dockerfile: services/graphql/Dockerfile
+    container_name: lkm-sep-graphql
+    restart: unless-stopped
+    ports:
+      - "${GRAPHQL_API_PORT:-9101}:9101"
+    environment:
+      - MONGOD_HOST=mongodb
+      - MONGOD_PORT=27017
+      - MONGOD_DB=${MONGOD_DB:-lkm-sep-v2}
+      - MONGOD_USERNAME=${MONGOD_USERNAME:-}
+      - MONGOD_PASSWORD=${MONGOD_PASSWORD:-}
+      - MONGOD_AUTH_SOURCE=${MONGOD_AUTH_SOURCE:-}
+      - GRAPHQL_API_PORT=9101
+      - GRAPHQL_API_BIND_IP=0.0.0.0
+      - APP_PORT=${APP_PORT:-9100}
+      - APP_SECRET=${APP_SECRET:-lkm-sep-v2-secret-key}
+      - TOKENIZE=${TOKENIZE:-lkm-sep-v2-tokenize-key}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_AUTH=${REDIS_AUTH:-}
+      - REDIS_DB=${REDIS_DB:-0}
+      - CLICKHOUSE_URL=${CLICKHOUSE_URL:-}
+      - CLICKHOUSE_PORT=${CLICKHOUSE_PORT:-}
+      - CLICKHOUSE_AUTH=${CLICKHOUSE_AUTH:-}
+      - CLICKHOUSE_DB=${CLICKHOUSE_DB:-}
+      - S3_ACCESS_CREDENTIAL=${S3_ACCESS_CREDENTIAL:-}
+      - S3_ACCESS_KEY=${S3_ACCESS_KEY:-}
+      - S3_SECRET_KEY=${S3_SECRET_KEY:-}
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME:-}
+      - S3_REGION_NAME=${S3_REGION_NAME:-ap-southeast-1}
+      - SES_AWS_DEFAULT_REGION=${SES_AWS_DEFAULT_REGION:-}
+      - SES_ACCESS_CREDENTIAL=${SES_ACCESS_CREDENTIAL:-}
+      - SES_DEFAULT_SOURCE_NAME=${SES_DEFAULT_SOURCE_NAME:-}
+      - SES_DEFAULT_SOURCE=${SES_DEFAULT_SOURCE:-}
+      - SES_DEFAULT_REPLY=${SES_DEFAULT_REPLY:-}
+      - SES_DEFAULT_CONFIGURATION_SET=${SES_DEFAULT_CONFIGURATION_SET:-}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID:-}
+      - NODE_ENV=production
+    volumes:
+      # Persist runtime-generated files (uploads, cache, etc.)
+      - graphql_public_data:/app/services/graphql/public
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  app:
+    build:
+      context: .
+      dockerfile: services/app/Dockerfile
+    container_name: lkm-sep-app
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-9100}:9100"
+    environment:
+      - APP_PORT=9100
+      - GRAPHQL_API_HOST=graphql
+      - GRAPHQL_API_PORT=9101
+      - APP_SECRET=${APP_SECRET:-lkm-sep-v2-secret-key}
+      - TOKENIZE=${TOKENIZE:-lkm-sep-v2-tokenize-key}
+      - VERSION_PREFIX=${VERSION_PREFIX:-}
+      - CDN_PREFIX=${CDN_PREFIX:-}
+      - STAGING_ENV=${STAGING_ENV:-}
+      - S3_ACCESS_CREDENTIAL=${S3_ACCESS_CREDENTIAL:-}
+      - S3_ACCESS_KEY=${S3_ACCESS_KEY:-}
+      - S3_SECRET_KEY=${S3_SECRET_KEY:-}
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME:-}
+      - S3_REGION_NAME=${S3_REGION_NAME:-ap-southeast-1}
+      - NODE_OPTIONS=--openssl-legacy-provider
+      - NODE_ENV=production
+    volumes:
+      # Share the same graphql public data for cross-service static file access
+      - graphql_public_data:/app/services/graphql/public
+    depends_on:
+      - graphql
+
+volumes:
+  mongodb_data:
+  redis_data:
+  graphql_public_data:

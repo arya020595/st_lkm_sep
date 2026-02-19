@@ -1,0 +1,14 @@
+{
+  "name": "SEP V2",
+  "version": "2.2.2",
+  "favicon": "/images/lkm-logo.png",
+  "icon": "/images/lkm-logo.png",
+  "welcomeLogo": "/images/lkm-logo.png",
+  "copyright": {
+    "year": "2021",
+    "owner": "ST-Advisory",
+    "siteUrl": ""
+  },
+  "websocketUrl": "",
+  "basePath": "/lkm"
+}

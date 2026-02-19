@@ -1,0 +1,787 @@
+[
+  {
+    "key": "Dashboard",
+    "label": "Dashboard",
+    "permissions": ["Read"],
+    "parentMenu": "Dashboard",
+    "app": "SEP"
+  },
+  {
+    "key": "Master Data",
+    "label": "Master Data",
+    "permissions": ["Read"],
+    "parentMenu": "Master Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Location",
+    "label": "Location",
+    "permissions": ["Read"],
+    "parentMenu": "Master Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Country Region",
+    "label": "Country Region",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Sub Region",
+    "label": "Sub Region",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Country",
+    "label": "Country",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Citizenship",
+    "label": "Citizenship",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Local Region",
+    "label": "Local Region",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Local State",
+    "label": "Local State",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Centre",
+    "label": "Centre",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Buyer",
+    "label": "Buyer",
+    "permissions": ["Create", "Read", "Update"],
+    "parentMenu": "Master Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Local Product",
+    "label": "Local Product",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data",
+    "app": "SEP"
+  },
+  {
+    "key": "International Product",
+    "label": "International Product",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Source Product",
+    "label": "Source Product",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data",
+    "app": "SEP"
+  },
+
+  {
+    "key": "Product Manufactured Type",
+    "label": "Product Manufactured Type",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Employment Category",
+    "label": "Employment Category",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Employment Division",
+    "label": "Employment Division",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Agri Input Type",
+    "label": "Agri Input Type",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Agri Input Product Type",
+    "label": "Agri Input Product Type",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Prices",
+    "label": "Prices",
+    "permissions": ["Read"],
+    "parentMenu": "Prices",
+    "app": "SEP"
+  },
+  {
+    "key": "Domestic Price",
+    "label": "Domestic Price",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Prices",
+    "app": "SEP"
+  },
+  {
+    "key": "Global Price",
+    "label": "Global Price",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Prices",
+    "app": "SEP"
+  },
+  {
+    "key": "Global Price Other",
+    "label": "Global Price Other",
+    "permissions": ["Read"],
+    "parentMenu": "Prices",
+    "app": "SEP"
+  },
+  {
+    "key": "Global Price ICCO Buletin Monthly Annual Average",
+    "label": "Global Price ICCO Buletin Monthly Annual Average",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Prices",
+    "app": "SEP"
+  },
+  {
+    "key": "Global Price ICCO Buletin Monthly Average High Low",
+    "label": "Global Price ICCO Buletin Monthly Average High Low",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Prices",
+    "app": "SEP"
+  },
+  {
+    "key": "Global Price ICCO Buletin International Significance",
+    "label": "Global Price ICCO Buletin International Significance",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Prices",
+    "app": "SEP"
+  },
+  {
+    "key": "Single Origin",
+    "label": "Single Origin",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Prices",
+    "app": "SEP"
+  },
+  {
+    "key": "Input For PPE",
+    "label": "Input For PPE",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Prices",
+    "app": "SEP"
+  },
+  {
+    "key": "Input From PKK",
+    "label": "Input From PKK",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Prices",
+    "app": "SEP"
+  },
+  {
+    "key": "Domestic Price Daily Report",
+    "label": "Domestic Price Daily Report",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Prices",
+    "app": "SEP"
+  },
+  {
+    "key": "Domestic Price Weekly Report",
+    "label": "Domestic Price Weekly Report",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Prices",
+    "app": "SEP"
+  },
+  {
+    "key": "Domestic Price Monthly Report",
+    "label": "Domestic Price Monthly Report",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Prices",
+    "app": "SEP"
+  },
+  {
+    "key": "Domestic Price Quarterly Report",
+    "label": "Domestic Price Quarterly Report",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Prices",
+    "app": "SEP"
+  },
+  {
+    "key": "Domestic Price Yearly Report",
+    "label": "Domestic Price Yearly Report",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Prices",
+    "app": "SEP"
+  },
+  {
+    "key": "Global Price Future Market",
+    "label": "Global Price Future Market",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Prices",
+    "app": "SEP"
+  },
+  {
+    "key": "Global Price Future Price",
+    "label": "Global Price Future Price",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Prices",
+    "app": "SEP"
+  },
+  {
+    "key": "Global Price ICCO Price",
+    "label": "Global Price ICCO Price",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Prices",
+    "app": "SEP"
+  },
+  {
+    "key": "ICCO Price Report",
+    "label": "ICCO Price Report",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Prices",
+    "app": "SEP"
+  },
+  {
+    "key": "ICCO Price Report Revinitiv",
+    "label": "ICCO Price Report Revinitiv",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Prices",
+    "app": "SEP"
+  },
+  {
+    "key": "Future Price Report",
+    "label": "Future Price Report",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Prices",
+    "app": "SEP"
+  },
+  {
+    "key": "Basic Cocoa Statistic",
+    "label": "Basic Cocoa Statistic",
+    "permissions": ["Read"],
+    "parentMenu": "Basic Cocoa Statistic",
+    "app": "SEP"
+  },
+  {
+    "key": "BCS Domestic Cultivated Area",
+    "label": "BCS Domestic Cultivated Area",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Basic Cocoa Statistic",
+    "app": "SEP"
+  },
+  {
+    "key": "BCS Domestic Production",
+    "label": "BCS Domestic Production",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Basic Cocoa Statistic",
+    "app": "SEP"
+  },
+  {
+    "key": "BCS Domestic Grindings",
+    "label": "BCS Domestic Grindings",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Basic Cocoa Statistic",
+    "app": "SEP"
+  },
+  {
+    "key": "BCS Domestic Employment",
+    "label": "BCS Domestic Employment",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Basic Cocoa Statistic",
+    "app": "SEP"
+  },
+  {
+    "key": "BCS Domestic Input Agri Fertilizer",
+    "label": "BCS Domestic Input Agri Fertilizer",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Basic Cocoa Statistic",
+    "app": "SEP"
+  },
+  {
+    "key": "BCS Global Production",
+    "label": "BCS Global Production",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Basic Cocoa Statistic",
+    "app": "SEP"
+  },
+  {
+    "key": "BCS Global Grinding",
+    "label": "BCS Global Grinding",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Basic Cocoa Statistic",
+    "app": "SEP"
+  },
+  {
+    "key": "BCS Global Country Profile",
+    "label": "BCS Global Country Profile",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Basic Cocoa Statistic",
+    "app": "SEP"
+  },
+  {
+    "key": "BCS Global ICCO Price",
+    "label": "BCS Global ICCO Price",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Basic Cocoa Statistic",
+    "app": "SEP"
+  },
+  {
+    "key": "BCS Global Reuters Price",
+    "label": "BCS Global Reuters Price",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Basic Cocoa Statistic",
+    "app": "SEP"
+  },
+  {
+    "key": "BCS Global World Cocoa Production",
+    "label": "BCS Global World Cocoa Production",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Basic Cocoa Statistic",
+    "app": "SEP"
+  },
+  {
+    "key": "Trade Data",
+    "label": "Trade Data",
+    "permissions": ["Read"],
+    "parentMenu": "Trade Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Domestic Trade",
+    "label": "Domestic Trade",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Trade Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Domestic Trade Import File",
+    "label": "Domestic Trade Import File",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Trade Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Domestic Trade Export File",
+    "label": "Domestic Trade Export File",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Trade Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Domestic Trade Log File",
+    "label": "Domestic Trade Log File",
+    "permissions": ["Read"],
+    "parentMenu": "Trade Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Domestic Trade Missing Data",
+    "label": "Domestic Trade Missing Data",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Trade Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Global Trade",
+    "label": "Global Trade",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Trade Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Global Trade Import File",
+    "label": "Global Trade Import File",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Trade Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Global Trade Export File",
+    "label": "Global Trade Export File",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Trade Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Global Trade Log File",
+    "label": "Global Trade Log File",
+    "permissions": ["Read"],
+    "parentMenu": "Trade Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Global Trade Missing Data",
+    "label": "Global Trade Missing Data",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Trade Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Global Trade Domestic Report",
+    "label": "Global Trade Domestic Report",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Trade Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Global Trade Global Report",
+    "label": "Global Trade Global Report",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Trade Data",
+    "app": "SEP"
+  },
+  {
+    "key": "Entrepreneur",
+    "label": "Entrepreneur",
+    "permissions": ["Read"],
+    "parentMenu": "Entrepreneur",
+    "app": "SEP"
+  },
+  {
+    "key": "Production And Sales",
+    "label": "Production And Sales",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Entrepreneur",
+    "app": "SEP"
+  },
+  {
+    "key": "Profile",
+    "label": "Profile",
+    "permissions": ["Read"],
+    "parentMenu": "Profile",
+    "app": "SEP"
+  },
+  {
+    "key": "Entrepreneur Profile",
+    "label": "Entrepreneur Profile",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Profile",
+    "app": "SEP"
+  },
+  {
+    "key": "Manufacturer Profile",
+    "label": "Manufacturer Profile",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Profile",
+    "app": "SEP"
+  },
+  {
+    "key": "Grinder Profile",
+    "label": "Grinder Profile",
+    "permissions": ["Read"],
+    "parentMenu": "Profile",
+    "app": "SEP"
+  },
+  {
+    "key": "Trader Profile",
+    "label": "Trader Profile",
+    "permissions": ["Read"],
+    "parentMenu": "Profile",
+    "app": "SEP"
+  },
+  {
+    "key": "Cocoa Warehouse Profile",
+    "label": "Cocoa Warehouse Profile",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Profile",
+    "app": "SEP"
+  },
+  {
+    "key": "Smallholder Profile",
+    "label": "Smallholder Profile",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Profile",
+    "app": "SEP"
+  },
+  {
+    "key": "User Management",
+    "label": "User Management",
+    "permissions": ["Read"],
+    "parentMenu": "User Management",
+    "app": "SEP"
+  },
+  {
+    "key": "User Admin",
+    "label": "User Admin",
+    "permissions": ["Read"],
+    "parentMenu": "User Management",
+    "app": "SEP"
+  },
+  {
+    "key": "User Role",
+    "label": "User Role",
+    "permissions": ["Read"],
+    "parentMenu": "User Management",
+    "app": "SEP"
+  },
+  {
+    "key": "Unstructured Document",
+    "label": "Unstructured Document",
+    "permissions": ["Read"],
+    "parentMenu": "Unstructured Document",
+    "app": "SEP"
+  },
+  {
+    "key": "Estate Information",
+    "label": "Estate Information",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Estate Information",
+    "app": "Estate Census"
+  },
+  {
+    "key": "Census Data",
+    "label": "Census Data",
+    "permissions": ["Read"],
+    "parentMenu": "Census Data",
+    "app": "Estate Census"
+  },
+  {
+    "key": "Tahun Banci",
+    "label": "Tahun Banci",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Tahun Banci",
+    "app": "Estate Census"
+  },
+  {
+    "key": "Maklumat Borang",
+    "label": "Maklumat Borang",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Maklumat Borang",
+    "app": "Estate Census"
+  },
+  {
+    "key": "Taraf Sah / Jenis Hak Milik",
+    "label": "Taraf Sah / Jenis Hak Milik",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Taraf Sah / Jenis Hak Milik",
+    "app": "Estate Census"
+  },
+  {
+    "key": "Pemilik Saham",
+    "label": "Pemilik Saham",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Pemilik Saham",
+    "app": "Estate Census"
+  },
+  {
+    "key": "Hak Milik Pertubuhan",
+    "label": "Hak Milik Pertubuhan",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Hak Milik Pertubuhan",
+    "app": "Estate Census"
+  },
+  {
+    "key": "Seksyen",
+    "label": "Seksyen",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Seksyen",
+    "app": "Estate Census"
+  },
+  {
+    "key": "Seller",
+    "label": "Seller",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Seller",
+    "app": "Estate Census"
+  },
+  {
+    "key": "Estate Census Buyer",
+    "label": "Estate Census Buyer",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Buyer",
+    "app": "Estate Census"
+  },
+  {
+    "key": "Validation Code",
+    "label": "Validation Code",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Validation Code",
+    "app": "Estate Census"
+  },
+  {
+    "key": "Cocoa Monitor",
+    "label": "Cocoa Monitor",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Cocoa Monitor",
+    "app": "Estate Census"
+  },
+  {
+    "key": "Estate Census Report",
+    "label": "Estate Census Report",
+    "permissions": ["Read"],
+    "parentMenu": "Estate Census Report",
+    "app": "Estate Census"
+  },
+  {
+    "key": "Smallholder Profile Ecocoa",
+    "label": "Smallholder Profile Ecocoa",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Smallholder Profile Ecocoa",
+    "app": "Smallholder Census"
+  },
+  {
+    "key": "Smallholder Profile Cosis",
+    "label": "Smallholder Profile Cosis",
+    "permissions": ["Read"],
+    "parentMenu": "Smallholder Profile Cosis",
+    "app": "Smallholder Census"
+  },
+  {
+    "key": "Smallholder Profile Cosis Sabah",
+    "label": "Smallholder Profile Cosis Sabah",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Smallholder Profile Cosis Sabah",
+    "app": "Smallholder Census"
+  },
+  {
+    "key": "Smallholder Profile Cosis Semenanjung",
+    "label": "Smallholder Profile Cosis Semenanjung",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Smallholder Profile Cosis Semenanjung",
+    "app": "Smallholder Census"
+  },
+  {
+    "key": "Smallholder Profile Cosis Sarawak",
+    "label": "Smallholder Profile Cosis Sarawak",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Smallholder Profile Cosis Sarawak",
+    "app": "Smallholder Census"
+  },
+  {
+    "key": "Smallholder Profile Cosis Generate Report",
+    "label": "Smallholder Profile Cosis Generate Report",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Smallholder Profile Cosis Generate Report",
+    "app": "Smallholder Census"
+  },
+  {
+    "key": "Question Bank",
+    "label": "Question Bank",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Question Bank",
+    "app": "Smallholder Census"
+  },
+  {
+    "key": "Set Questionnaire",
+    "label": "Set Questionnaire",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Set Questionnaire",
+    "app": "Smallholder Census"
+  },
+  {
+    "key": "Input Data Banci",
+    "label": "Input Data Banci",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Input Data Banci",
+    "app": "Smallholder Census"
+  },
+  {
+    "key": "Master Data Smallholder",
+    "label": "Master Data Smallholder",
+    "permissions": ["Read"],
+    "parentMenu": "Master Data Smallholder",
+    "app": "Smallholder Census"
+  },
+  {
+    "key": "Master Data Smallholder Negeri",
+    "label": "Master Data Smallholder Negeri",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data Smallholder",
+    "app": "Smallholder Census"
+  },
+  {
+    "key": "Master Data Smallholder Bangsa",
+    "label": "Master Data Smallholder Bangsa",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data Smallholder",
+    "app": "Smallholder Census"
+  },
+  {
+    "key": "Master Data Smallholder Daerah",
+    "label": "Master Data Smallholder Daerah",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data Smallholder",
+    "app": "Smallholder Census"
+  },
+  {
+    "key": "Master Data Smallholder Mukim",
+    "label": "Master Data Smallholder Mukim",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data Smallholder",
+    "app": "Smallholder Census"
+  },
+  {
+    "key": "Master Data Smallholder Kampung",
+    "label": "Master Data Smallholder Kampung",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data Smallholder",
+    "app": "Smallholder Census"
+  },
+  {
+    "key": "Master Data Smallholder Parlimen",
+    "label": "Master Data Smallholder Parlimen",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data Smallholder",
+    "app": "Smallholder Census"
+  },
+  {
+    "key": "Master Data Smallholder Dun",
+    "label": "Master Data Smallholder Dun",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data Smallholder",
+    "app": "Smallholder Census"
+  },
+  {
+    "key": "Master Data Smallholder Ref Banci",
+    "label": "Master Data Smallholder Ref Banci",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data Smallholder",
+    "app": "Smallholder Census"
+  },
+  {
+    "key": "Master Data Smallholder Section",
+    "label": "Master Data Smallholder Section",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data Smallholder",
+    "app": "Smallholder Census"
+  },
+  {
+    "key": "Master Data Smallholder Sub Section",
+    "label": "Master Data Smallholder Sub Section",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data Smallholder",
+    "app": "Smallholder Census"
+  },
+  {
+    "key": "Master Data Smallholder Question Code",
+    "label": "Master Data Smallholder Question Code",
+    "permissions": ["Create", "Read", "Update", "Delete"],
+    "parentMenu": "Master Data Smallholder",
+    "app": "Smallholder Census"
+  }
+]

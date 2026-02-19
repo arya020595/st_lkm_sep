@@ -1,0 +1,157 @@
+# =============================================================================
+# LKM-SEP v2 — Docker Compose (Development)
+# =============================================================================
+# Usage: docker compose -f docker-compose.dev.yml up --build
+#
+# Features:
+#   - Source code mounted as volumes (live-reload)
+#   - nodemon for auto-restart on file changes
+#   - NODE_ENV=development (GraphQL Playground enabled)
+#   - No image rebuild required for code changes
+# =============================================================================
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: lkm-sep-dev-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGOD_DB:-lkm-sep-v2}
+    ports:
+      - "${MONGOD_PORT:-27017}:27017"
+    volumes:
+      - mongodb_dev_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: lkm-sep-dev-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_dev_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  graphql:
+    build:
+      context: .
+      dockerfile: services/graphql/Dockerfile
+    container_name: lkm-sep-dev-graphql
+    restart: unless-stopped
+    ports:
+      - "${GRAPHQL_API_PORT:-9101}:9101"
+    environment:
+      - MONGOD_HOST=mongodb
+      - MONGOD_PORT=27017
+      - MONGOD_DB=${MONGOD_DB:-lkm-sep-v2}
+      - MONGOD_USERNAME=${MONGOD_USERNAME:-}
+      - MONGOD_PASSWORD=${MONGOD_PASSWORD:-}
+      - MONGOD_AUTH_SOURCE=${MONGOD_AUTH_SOURCE:-}
+      - GRAPHQL_API_PORT=9101
+      - GRAPHQL_API_BIND_IP=0.0.0.0
+      - APP_PORT=${APP_PORT:-9100}
+      - APP_SECRET=${APP_SECRET:-lkm-sep-v2-secret-key}
+      - TOKENIZE=${TOKENIZE:-lkm-sep-v2-tokenize-key}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_AUTH=${REDIS_AUTH:-}
+      - REDIS_DB=${REDIS_DB:-0}
+      - CLICKHOUSE_URL=${CLICKHOUSE_URL:-}
+      - CLICKHOUSE_PORT=${CLICKHOUSE_PORT:-}
+      - CLICKHOUSE_AUTH=${CLICKHOUSE_AUTH:-}
+      - CLICKHOUSE_DB=${CLICKHOUSE_DB:-}
+      - S3_ACCESS_CREDENTIAL=${S3_ACCESS_CREDENTIAL:-}
+      - S3_ACCESS_KEY=${S3_ACCESS_KEY:-}
+      - S3_SECRET_KEY=${S3_SECRET_KEY:-}
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME:-}
+      - S3_REGION_NAME=${S3_REGION_NAME:-ap-southeast-1}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID:-}
+      - NODE_ENV=development
+    volumes:
+      # Mount source code for live-reload (nodemon watches these)
+      - ./services/graphql/schema:/app/services/graphql/schema
+      - ./services/graphql/libs:/app/services/graphql/libs
+      - ./services/graphql/utilities:/app/services/graphql/utilities
+      - ./services/graphql/index.js:/app/services/graphql/index.js
+      - ./services/graphql/authentication.js:/app/services/graphql/authentication.js
+      - ./services/graphql/clickhouse.js:/app/services/graphql/clickhouse.js
+      - ./services/graphql/data-loader.js:/app/services/graphql/data-loader.js
+      - ./services/graphql/emailer.js:/app/services/graphql/emailer.js
+      - ./services/graphql/excel.js:/app/services/graphql/excel.js
+      - ./services/graphql/pdf.js:/app/services/graphql/pdf.js
+      - ./services/graphql/redis.js:/app/services/graphql/redis.js
+      - ./services/graphql/s3.js:/app/services/graphql/s3.js
+      - ./services/graphql/queue.js:/app/services/graphql/queue.js
+      - ./services/graphql/agenda.js:/app/services/graphql/agenda.js
+      - ./services/graphql/role-privileges.json:/app/services/graphql/role-privileges.json
+      - ./services/graphql/public:/app/services/graphql/public
+      - ./services/graphql/static:/app/services/graphql/static
+    command: ["npx", "nodemon", "--watch", "./", "--ext", "js,json", "index.js"]
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  app:
+    build:
+      context: .
+      dockerfile: services/app/Dockerfile
+    container_name: lkm-sep-dev-app
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-9100}:9100"
+    environment:
+      - APP_PORT=9100
+      - GRAPHQL_API_HOST=graphql
+      - GRAPHQL_API_PORT=9101
+      - APP_SECRET=${APP_SECRET:-lkm-sep-v2-secret-key}
+      - TOKENIZE=${TOKENIZE:-lkm-sep-v2-tokenize-key}
+      - VERSION_PREFIX=${VERSION_PREFIX:-}
+      - CDN_PREFIX=${CDN_PREFIX:-}
+      - STAGING_ENV=${STAGING_ENV:-}
+      - S3_ACCESS_CREDENTIAL=${S3_ACCESS_CREDENTIAL:-}
+      - S3_ACCESS_KEY=${S3_ACCESS_KEY:-}
+      - S3_SECRET_KEY=${S3_SECRET_KEY:-}
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME:-}
+      - S3_REGION_NAME=${S3_REGION_NAME:-ap-southeast-1}
+      - NODE_OPTIONS=--openssl-legacy-provider
+      - NODE_ENV=development
+    volumes:
+      # Mount source code for live-reload
+      - ./services/app/pages:/app/services/app/pages
+      - ./services/app/components:/app/services/app/components
+      - ./services/app/libs:/app/services/app/libs
+      - ./services/app/locales:/app/services/app/locales
+      - ./services/app/styles:/app/services/app/styles
+      - ./services/app/server:/app/services/app/server
+      - ./services/app/public:/app/services/app/public
+      # Cross-service static files
+      - ./services/graphql/public:/app/services/graphql/public
+      - ./services/graphql/static:/app/services/graphql/static
+    command:
+      [
+        "npx",
+        "nodemon",
+        "--watch",
+        "server",
+        "--ext",
+        "js,json",
+        "server/index.js",
+      ]
+    depends_on:
+      - graphql
+
+volumes:
+  mongodb_dev_data:
+  redis_dev_data:
