@@ -10,6 +10,7 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
+    "dev": "concurrently --names \"GRAPHQL,APP\" --prefix-colors \"blue,green\" \"yarn graphql:dev\" \"yarn app:dev\"",
     "graphql:dev": "lerna run --stream graphql:dev",
     "graphql": "lerna run --stream graphql",
     "app:dev": "lerna run --stream app:dev",
